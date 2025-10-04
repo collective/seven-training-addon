@@ -48,11 +48,14 @@
       "react-dom": "^19.2.0"
     },
     "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
       "@swc/core",
       "@tailwindcss/oxide",
       "cypress",
       "esbuild",
       "lightningcss-cli",
+      "prisma",
       "unrs-resolver"
     ]
   }

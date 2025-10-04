@@ -11,3 +11,7 @@ node_modules
 results
 yarn.lock
 /public
+
+dev.db
+# do not include the Prisma generated client
+packages/seven-add-on/generated/
