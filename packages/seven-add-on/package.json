@@ -24,9 +24,17 @@
     "dry-release": "release-it --dry-run",
     "release": "release-it",
     "release-major-alpha": "release-it major --preRelease=alpha",
-    "release-alpha": "release-it --preRelease=alpha"
+    "release-alpha": "release-it --preRelease=alpha",
+    "prisma:generate": "prisma generate",
+    "prisma:db:push": "prisma db push",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@plone/components": "workspace:*",
+    "@prisma/client": "^6.16.3",
+    "prisma": "^6.16.3",
+    "react-router": "catalog:",
     "tailwindcss": "catalog:"
   },
   "peerDependencies": {
@@ -37,6 +45,7 @@
     "@plone/registry": "workspace:*",
     "@plone/scripts": "workspace:*",
     "@plone/types": "workspace:*",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "release-it": "^19.0.5",
