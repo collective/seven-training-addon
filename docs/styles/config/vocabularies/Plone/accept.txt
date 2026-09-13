@@ -11,6 +11,7 @@ Barceloneta
 bugfix
 buildout
 cacheable
+CMFPlone
 CommonJS
 doctest
 folderish
