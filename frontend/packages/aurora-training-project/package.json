@@ -1,0 +1,56 @@
+{
+  "name": "aurora-training-project",
+  "version": "1.0.0",
+  "description": "Plone Aurora training project with a Python CMFPlone backend.",
+  "main": "index.ts",
+  "license": "MIT",
+  "keywords": [
+    "volto-addon",
+    "volto",
+    "plone",
+    "react"
+  ],
+  "author": "Victor Fernandez de Alba",
+  "homepage": "https://github.com/collective/aurora-training-project#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:collective/aurora-training-project.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
+    "dry-release": "release-it --dry-run",
+    "release": "release-it",
+    "release-major-alpha": "release-it major --preRelease=alpha",
+    "release-alpha": "release-it --preRelease=alpha",
+    "prisma:generate": "DATABASE_URL=\"file:$(pwd)/prisma/dev.db\" prisma generate",
+    "prisma:db:push": "DATABASE_URL=\"file:$(pwd)/prisma/dev.db\" prisma db push",
+    "prisma:migrate": "DATABASE_URL=\"file:$(pwd)/prisma/dev.db\" prisma migrate dev",
+    "prisma:studio": "DATABASE_URL=\"file:$(pwd)/prisma/dev.db\" prisma studio"
+  },
+  "dependencies": {
+    "@plone/components": "workspace:*",
+    "@prisma/client": "^6.16.3",
+    "prisma": "^6.16.3",
+    "react-router": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "peerDependencies": {
+    "i18next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@plone/registry": "workspace:*",
+    "@plone/scripts": "workspace:*",
+    "@plone/types": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "release-it": "^19.0.5",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,25 @@
+[repository]
+name = "aurora-training-project"
+changelog = "CHANGELOG.md"
+version = "version.txt"
+version_format = "calver"
+container_images_prefix = "ghcr.io/collective/aurora-training-project"
+compose = ["docker-compose.yml"]
+
+[repository.towncrier]
+section = "Project"
+settings = "towncrier.toml"
+
+[backend.package]
+name = "aurora.training.project"
+path = "backend"
+code_path = "src/aurora/training/project"
+changelog = "backend/CHANGELOG.md"
+towncrier_settings = "backend/pyproject.toml"
+base_package = "Products.CMFPlone"
+publish = false
+
+[cookieplone]
+template = "aurora_cmfplone"
+template_version = "662183adfd8f2271ed2c6c65419171737723430a"
+generated_date = "2026-09-13 09:51:28"

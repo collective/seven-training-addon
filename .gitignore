@@ -1,19 +1,5 @@
-.*project
-.settings/
-.vscode
-*~
-acceptance/cypress/videos/
-acceptance/node_modules
-.storybook-build
-build
-core
+!.vscode
 node_modules
-results
-yarn.lock
+/core
 /public
-
-dev.db
-# do not include the Prisma generated client
-packages/seven-add-on/generated/
-temp_auto_push.bat
-temp_interactive_push.bat
+*.mo

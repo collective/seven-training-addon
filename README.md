@@ -1,203 +1,149 @@
-# Seven Add-on (seven-add-on)
+# Aurora Training Project 🚀
 
-A new add-on for Seven
+[![Built with Cookieplone](https://img.shields.io/badge/built%20with-Cookieplone-0083be.svg?logo=cookiecutter)](https://github.com/plone/cookieplone-templates/)
+[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![CI](https://github.com/collective/aurora-training-project/actions/workflows/main.yml/badge.svg)](https://github.com/collective/aurora-training-project/actions/workflows/main.yml)
 
-[![npm](https://img.shields.io/npm/v/seven-add-on)](https://www.npmjs.com/package/seven-add-on)
-[![](https://img.shields.io/badge/-Storybook-ff4785?logo=Storybook&logoColor=white&style=flat-square)](https://collective.github.io/seven-add-on/)
-[![Code analysis checks](https://github.com/collective/seven-add-on/actions/workflows/code.yml/badge.svg)](https://github.com/collective/seven-add-on/actions/workflows/code.yml)
-[![Unit tests](https://github.com/collective/seven-add-on/actions/workflows/unit.yml/badge.svg)](https://github.com/collective/seven-add-on/actions/workflows/unit.yml)
+Plone Aurora training project with a Python CMFPlone backend.
 
-## Features
+## Quick Start 🏁
 
-<!-- List your awesome features here -->
+### Prerequisites ✅
 
-## Installation
-
-To install your project, you must choose the method appropriate to your version of Volto.
-
-
-### Volto 17 and earlier
-
-Create a new Volto project (you can skip this step if you already have one):
-
-```
-npm install -g yo @plone/generator-volto
-yo @plone/volto my-volto-project --addon seven-add-on
-cd my-volto-project
-```
-
-Add `seven-add-on` to your package.json:
-
-```JSON
-"addons": [
-    "seven-add-on"
-],
-
-"dependencies": {
-    "seven-add-on": "*"
-}
-```
-
-Download and install the new add-on by running:
-
-```
-yarn install
-```
-
-Start volto with:
-
-```
-yarn start
-```
-
-### Volto 18 and later
-
-Add `seven-add-on` to your `package.json`:
-
-```json
-"dependencies": {
-    "seven-add-on": "*"
-}
-```
-
-Add `seven-add-on` to your `volto.config.js`:
-
-```javascript
-const addons = ['seven-add-on'];
-```
-
-If this package provides a Volto theme, and you want to activate it, then add the following to your `volto.config.js`:
-
-```javascript
-const theme = 'seven-add-on';
-```
-
-## Test installation
-
-Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
+-   An [operating system](https://6.docs.plone.org/install/create-project-cookieplone.html#prerequisites-for-installation) that runs all the requirements mentioned.
+-   [uv](https://6.docs.plone.org/install/create-project-cookieplone.html#uv)
+-   [nvm](https://6.docs.plone.org/install/create-project-cookieplone.html#nvm)
+-   Node.js 24 and pnpm
+-   [Make](https://6.docs.plone.org/install/create-project-cookieplone.html#make)
+-   [Git](https://6.docs.plone.org/install/create-project-cookieplone.html#git)
+-   [Docker](https://docs.docker.com/get-started/get-docker/) (optional)
 
 
-## Development
+### Installation 🔧
 
-The development of this add-on is done in isolation using a new approach using pnpm workspaces and latest `mrs-developer` and other Volto core improvements.
-For this reason, it only works with pnpm and Volto 18 (currently in alpha).
+1.  Clone this repository, then change your working directory.
+
+    ```shell
+    git clone git@github.com:collective/aurora-training-project.git
+    cd aurora-training-project
+    ```
+
+2.  Install this code base.
+
+    ```shell
+    make install
+    ```
 
 
-### Pre-requisites
+### Fire Up the Servers 🔥
 
--   [Node.js](https://6.docs.plone.org/install/create-project.html#node-js)
--   [Make](https://6.docs.plone.org/install/create-project.html#make)
--   [Docker](https://6.docs.plone.org/install/create-project.html#docker)
+1.  Create a new Plone site on your first run.
 
+    ```shell
+    make backend-create-site
+    ```
 
-### Make convenience commands
+2.  Start the backend at http://localhost:8080/.
 
-Run `make help` to list the available commands.
+    ```shell
+    make backend-start
+    ```
 
-```text
-help                             Show this help
-install                          Installs the add-on in a development environment
-start                            Starts Volto, allowing reloading of the add-on during development
-build                            Build a production bundle for distribution of the project with the add-on
-i18n                             Sync i18n
-ci-i18n                          Check if i18n is not synced
-format                           Format codebase
-lint                             Lint, or catch and remove problems, in code base
-release                          Release the add-on on npmjs.org
-release-dry-run                  Dry-run the release of the add-on on npmjs.org
-test                             Run unit tests
-ci-test                          Run unit tests in CI
-backend-docker-start             Starts a Docker-based backend for development
-storybook-start                  Start Storybook server on port 6006
-storybook-build                  Build Storybook
-acceptance-frontend-dev-start    Start acceptance frontend in development mode
-acceptance-frontend-prod-start   Start acceptance frontend in production mode
-acceptance-backend-start         Start backend acceptance server
-ci-acceptance-backend-start      Start backend acceptance server in headless mode for CI
-acceptance-test                  Start Cypress in interactive mode
-ci-acceptance-test               Run cypress tests in headless mode for CI
-```
+3.  In a new shell session, start the frontend at http://localhost:3000/.
 
-### Development environment set up
+    ```shell
+    make frontend-start
+    ```
 
-Install package requirements.
+Voila! Your Plone site should be live and kicking! 🎉
+
+### Local Stack Deployment 📦
+
+Deploy a local Docker Compose environment that includes the following.
+
+- Docker images for Backend and Frontend 🖼️
+- A stack with a Traefik router and a PostgreSQL database 🗃️
+- Accessible at [http://aurora-training-project.localhost](http://aurora-training-project.localhost) 🌐
+
+Run the following commands in a shell session.
 
 ```shell
-make install
+make stack-create-site
+make stack-start
 ```
 
-### Start developing
+And... you're all set! Your Plone site is up and running locally! 🚀
 
-Start the backend.
+## Project structure 🏗️
+
+This monorepo consists of the following distinct sections:
+
+- **backend**: Houses the API and Plone installation, utilizing pip instead of buildout, and includes a policy package named aurora.training.project.
+- **frontend**: Contains the Aurora application and project add-on.
+- **devops**: Encompasses Docker stack, Ansible playbooks, and cache settings.
+- **docs**: Scaffold for writing documentation for your project.
+
+### Why this structure? 🤔
+
+- All necessary codebases to run the site are contained within the repository (excluding existing add-ons for Plone and React).
+- Specific GitHub Workflows are triggered based on changes in each codebase (refer to .github/workflows).
+- Simplifies the creation of Docker images for each codebase.
+- Demonstrates Plone installation/setup without buildout.
+
+## Code quality assurance 🧐
+
+To check your code against quality standards, run the following shell command.
 
 ```shell
-make backend-docker-start
+make check
 ```
 
-In a separate terminal session, start the frontend.
+### Format the codebase
 
-```shell
-make start
-```
-
-### Lint code
-
-Run ESlint, Prettier, and Stylelint in analyze mode.
-
-```shell
-make lint
-```
-
-### Format code
-
-Run ESlint, Prettier, and Stylelint in fix mode.
+To format and rewrite the code base, ensuring it adheres to quality standards, run the following shell command.
 
 ```shell
 make format
 ```
 
-### i18n
+| Section | Tool | Description | Configuration |
+| --- | --- | --- | --- |
+| backend | Ruff | Python code formatting, imports sorting  | [`backend/pyproject.toml`](./backend/pyproject.toml) |
+| backend | `zpretty` | XML and ZCML formatting  | -- |
+| frontend | ESLint | Fixes most common frontend issues | [`frontend/.eslintrc.js`](.frontend/.eslintrc.js) |
+| frontend | prettier | Format JS and Typescript code  | [`frontend/.prettierrc`](.frontend/.prettierrc) |
+| frontend | Stylelint | Format Styles (css, less, sass)  | [`frontend/.stylelintrc`](.frontend/.stylelintrc) |
 
-Extract the i18n messages to locales.
+Formatters can also be run within the `backend` or `frontend` folders.
+
+### Linting the codebase
+or `lint`:
+
+ ```shell
+make lint
+```
+
+| Section | Tool | Description | Configuration |
+| --- | --- | --- | --- |
+| backend | Ruff | Checks code formatting, imports sorting  | [`backend/pyproject.toml`](./backend/pyproject.toml) |
+| backend | Pyroma | Checks Python package metadata  | -- |
+| backend | check-python-versions | Checks Python version information  | -- |
+| backend | `zpretty` | Checks XML and ZCML formatting  | -- |
+| frontend | ESLint | Checks JS / Typescript lint | [`frontend/.eslintrc.js`](.frontend/.eslintrc.js) |
+| frontend | prettier | Check JS / Typescript formatting  | [`frontend/.prettierrc`](.frontend/.prettierrc) |
+| frontend | Stylelint | Check Styles (css, less, sass) formatting  | [`frontend/.stylelintrc`](.stylelintrc) |
+
+Linters can be run individually within the `backend` or `frontend` folders.
+
+
+## Internationalization 🌐
+
+Generate translation files for Plone and Aurora with ease:
 
 ```shell
 make i18n
 ```
 
-### Unit tests
+## Credits and acknowledgements 🙏
 
-Run unit tests.
-
-```shell
-make test
-```
-
-### Run Cypress tests
-
-Run each of these steps in separate terminal sessions.
-
-In the first session, start the frontend in development mode.
-
-```shell
-make acceptance-frontend-dev-start
-```
-
-In the second session, start the backend acceptance server.
-
-```shell
-make acceptance-backend-start
-```
-
-In the third session, start the Cypress interactive test runner.
-
-```shell
-make acceptance-test
-```
-
-## License
-
-The project is licensed under the MIT license.
-
-## Credits and Acknowledgements 🙏
-
-Crafted with care by **Generated using [Cookieplone (0.9.8)](https://github.com/plone/cookieplone) and [cookieplone-templates (ad32b43)](https://github.com/plone/cookieplone-templates/commit/ad32b438696bdbf993d03a40f3b6a3e7a3d328e7) on 2025-10-04 11:34:49.247006**. A special thanks to all contributors and supporters!
+Generated using [Cookieplone (2.0.0b3)](https://github.com/plone/cookieplone) and [cookieplone-templates (662183a)](https://github.com/plone/cookieplone-templates/commit/662183adfd8f2271ed2c6c65419171737723430a) on 2026-09-13 11:51:27.245162. A special thanks to all contributors and supporters!

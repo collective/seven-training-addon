@@ -1,0 +1,1 @@
+Add a Playwright-based acceptance test setup under `frontend/acceptance` (backend reset fixture, login/content/accessibility utilities, and a suite covering the homepage, content, and the `Likes` feature), with Makefile targets, package.json scripts, and a CI workflow to run them. @sneridagh
