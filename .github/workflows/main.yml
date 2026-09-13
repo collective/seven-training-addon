@@ -67,8 +67,8 @@ jobs:
       contents: write
       packages: write
 
-  playwright-acceptance:
-    name: "Playwright Acceptance"
+  acceptance:
+    name: "Acceptance"
     uses: ./.github/workflows/acceptance.yml
     needs:
         - config
@@ -87,7 +87,7 @@ jobs:
       - frontend
       - docs
       - varnish
-      - playwright-acceptance
+      - acceptance
     steps:
       - name: Write report
         run: |
@@ -99,4 +99,4 @@ jobs:
           echo '| frontend | ${{ needs.frontend.result }} |' >> $GITHUB_STEP_SUMMARY
           echo '| docs | ${{ needs.docs.result }} |' >> $GITHUB_STEP_SUMMARY
           echo '| varnish | ${{ needs.varnish.result }} |' >> $GITHUB_STEP_SUMMARY
-          echo '| playwright-acceptance | ${{ needs.playwright-acceptance.result }} |' >> $GITHUB_STEP_SUMMARY
+          echo '| acceptance | ${{ needs.acceptance.result }} |' >> $GITHUB_STEP_SUMMARY

@@ -39,6 +39,9 @@ install: ## Installs the add-on in a development environment
 	pnpm dlx mrs-developer missdev --no-config --fetch-https
 	pnpm i
 	make build-deps
+	# Generate the Prisma client used by the "Likes" feature so the build can
+	# resolve it (see packages/aurora-training-project/lib/prisma.ts).
+	pnpm --filter aurora-training-project prisma:generate
 
 .PHONY: start
 start: ## Starts Volto, allowing reloading of the add-on during development

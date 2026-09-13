@@ -11,8 +11,7 @@ export default function LikeButton() {
   // which the root loader merges into the root data (see the add-on's
   // `config/server.ts`).
   const likes = rootData?.likes as
-    | { pathname: string; count: number }
-    | undefined;
+    { pathname: string; count: number } | undefined;
   const rootCount = likes?.count ?? 0;
   const fetcherRecord = fetcher.data as { count?: number } | undefined;
   const fetcherCount =
