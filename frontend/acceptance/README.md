@@ -57,18 +57,18 @@ the acceptance backend):
 From the repository root, start the acceptance containers and run the suite:
 
 ```bash
-make ci-acceptance-playwright-test
+make ci-acceptance-test
 ```
 
 To iterate interactively (with the Playwright UI) against already-running
 servers, start the acceptance backend and frontend, then:
 
 ```bash
-make acceptance-playwright-test
+make acceptance-test
 ```
 
 The first time, install the browsers used by Playwright:
 
 ```bash
-make -C frontend install-playwright
+make -C frontend install-acceptance
 ```
