@@ -6,6 +6,45 @@
 
 Plone Aurora training project with a Python CMFPlone backend.
 
+## What this project demonstrates 🎓
+
+Beyond the standard monorepo scaffold, this training project ships a small
+**"Likes"** feature in the frontend add-on
+([`frontend/packages/aurora-training-project`](frontend/packages/aurora-training-project))
+that showcases several Aurora extension points — and how to plug an **extra
+backend** (a Prisma/SQLite database) into an Aurora app alongside Plone.
+
+Every page shows a 👍 **Like** button with the number of times that URL has been
+liked; clicking it increments the count in place. Under the hood it wires
+together:
+
+- **A slot component** — `LikeButton` is registered into the `contentArea` slot,
+  so it renders on content views
+  ([`slots/LikeButton.tsx`](frontend/packages/aurora-training-project/slots/LikeButton.tsx),
+  [`config/slots.ts`](frontend/packages/aurora-training-project/config/slots.ts)).
+- **A `rootLoaderData` server utility** — runs server-side, reads the current
+  path's like count from the database, and merges it into the root loader data
+  (exposed as `rootData.likes`), so the count is server-rendered
+  ([`config/server.ts`](frontend/packages/aurora-training-project/config/server.ts)).
+- **A resource route** — `/@likes/*` returns the count for a path on `GET` and
+  increments it on `POST`; the button's `fetcher` uses it for live updates
+  ([`routes/api.likes.ts`](frontend/packages/aurora-training-project/routes/api.likes.ts),
+  [`config/routes.ts`](frontend/packages/aurora-training-project/config/routes.ts)).
+- **An extra backend** — a [Prisma](https://www.prisma.io/) ORM + SQLite store (a
+  single `UrlLike` model keyed by pathname) that lives entirely outside Plone's
+  ZODB, showing how to integrate a secondary datastore
+  ([`prisma/schema.prisma`](frontend/packages/aurora-training-project/prisma/schema.prisma),
+  [`lib/prisma.ts`](frontend/packages/aurora-training-project/lib/prisma.ts)).
+
+The feature is covered by Playwright acceptance tests under
+[`frontend/acceptance`](frontend/acceptance).
+
+> [!NOTE]
+> The Likes data lives in a local SQLite database. `make install` generates the
+> Prisma client; create the database once with
+> `pnpm --filter aurora-training-project prisma:db:push`. `DATABASE_URL` is
+> preconfigured in the frontend `package.json` scripts.
+
 ## Quick Start 🏁
 
 ### Prerequisites ✅
