@@ -40,10 +40,8 @@ The feature is covered by Playwright acceptance tests under
 [`frontend/acceptance`](frontend/acceptance).
 
 > [!NOTE]
-> The Likes data lives in a local SQLite database. `make install` generates the
-> Prisma client; create the database once with
-> `pnpm --filter aurora-training-project prisma:db:push`. `DATABASE_URL` is
-> preconfigured in the frontend `package.json` scripts.
+> The Likes data lives in a local SQLite database. See the **Set up the Likes
+> database (Prisma)** section below for the one-time setup.
 
 ## Quick Start 🏁
 
@@ -72,6 +70,46 @@ The feature is covered by Playwright acceptance tests under
     ```shell
     make install
     ```
+
+
+### Set up the Likes database (Prisma) 🗄️
+
+The Likes feature stores its data in a local **SQLite** database managed by
+[Prisma](https://www.prisma.io/), separate from the Plone backend. Set it up once
+after installing.
+
+1.  Generate the Prisma client. (This also runs automatically as part of
+    `make install`, so you can usually skip it.)
+
+    ```shell
+    pnpm --filter aurora-training-project prisma:generate
+    ```
+
+2.  Create the SQLite database and its schema.
+
+    ```shell
+    pnpm --filter aurora-training-project prisma:db:push
+    ```
+
+    This creates `frontend/packages/aurora-training-project/prisma/dev.db` with a
+    single `UrlLike` table. The database file and the generated client are
+    git-ignored.
+
+`DATABASE_URL` is already configured in the frontend `package.json` scripts
+(`dev`, `start`, `start:prod`, and the `prisma:*` commands), so you don't need to
+set any environment variable to run the app or the tools.
+
+Handy Prisma commands (run from the repository root):
+
+| Command | Description |
+| --- | --- |
+| `pnpm --filter aurora-training-project prisma:generate` | Regenerate the Prisma client after editing the schema |
+| `pnpm --filter aurora-training-project prisma:db:push` | Sync the schema to the SQLite database |
+| `pnpm --filter aurora-training-project prisma:migrate` | Create and apply a migration |
+| `pnpm --filter aurora-training-project prisma:studio` | Open Prisma Studio to browse the data |
+
+Once the database exists, start the servers (below) and the 👍 Like button will
+work on every page.
 
 
 ### Fire Up the Servers 🔥
