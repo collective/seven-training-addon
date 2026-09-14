@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG AURORA_VERSION
+ARG AURORA_VERSION=1.0.0-alpha.8
 FROM plone/aurora-builder:${AURORA_VERSION} AS builder
 
 COPY --chown=node packages/aurora-training-project /app/packages/aurora-training-project
@@ -41,6 +41,10 @@ ENV DATABASE_URL="file:/app/packages/aurora-training-project/prisma/dev.db"
 
 RUN <<EOT
     set -e
+    # CI=true keeps corepack/pnpm non-interactive: if it decides to reconcile the
+    # copied node_modules it must not block on a modules-purge confirmation
+    # prompt (there is no TTY during the image build).
+    export CI=true
     corepack enable pnpm
     corepack use pnpm@11.20.0
     corepack prepare pnpm@11.20.0 --activate
