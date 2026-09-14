@@ -15,7 +15,7 @@ REPOSITORY_SETTINGS := $(shell uvx repoplone settings dump)
 
 PROJECT_NAME := $(shell echo '$(REPOSITORY_SETTINGS)' | jq -r '.name')
 STACK_NAME=aurora-training-project-example-com
-FRONTEND_BASE_VERSION := 19.0.0
+FRONTEND_BASE_VERSION := 1.0.0-alpha.8
 PLONE_VERSION := $(shell echo '$(REPOSITORY_SETTINGS)' | jq -r '.backend.base_package_version')
 
 
@@ -202,7 +202,7 @@ acceptance-test:
 .PHONY: acceptance-frontend-image-build
 acceptance-frontend-image-build:
 	@echo "Build acceptance frontend image"
-	@docker build frontend -t collective/aurora-training-project-frontend:acceptance -f frontend/Dockerfile --build-arg VOLTO_VERSION=$(FRONTEND_BASE_VERSION)
+	@docker build frontend -t collective/aurora-training-project-frontend:acceptance -f frontend/Dockerfile --build-arg AURORA_VERSION=$(FRONTEND_BASE_VERSION)
 
 .PHONY: acceptance-backend-image-build
 acceptance-backend-image-build:

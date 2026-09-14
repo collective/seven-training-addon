@@ -109,7 +109,7 @@ jobs:
           ROOT="$(jq -r '.root_path' <<< "$REPOSITORY_SETTINGS")"
           echo "image-name-prefix=$(jq -r '.container_images_prefix' <<< "$REPOSITORY_SETTINGS")" >> "$GITHUB_OUTPUT"
           echo "plone-version=$(jq -r '.backend.base_package_version' <<< "$REPOSITORY_SETTINGS")" >> "$GITHUB_OUTPUT"
-          echo "frontend-base-version=19.0.0" >> "$GITHUB_OUTPUT"
+          echo "frontend-base-version=1.0.0-alpha.8" >> "$GITHUB_OUTPUT"
           echo "base-tag=sha-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
           echo "path-backend=$(jq -r '.backend.path' <<< "$REPOSITORY_SETTINGS" | sed "s|^${ROOT}/||")" >> "$GITHUB_OUTPUT"
           echo "path-frontend=frontend/packages/aurora-training-project" >> "$GITHUB_OUTPUT"
