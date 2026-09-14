@@ -1,0 +1,8 @@
+{
+    "title": "Aurora Training Project",
+    "description": "Plone Aurora training project with a Python CMFPlone backend.",
+    "author": "Victor Fernandez de Alba",
+    "email": "sneridagh@gmail.com",
+    "frontend_addon_name": "aurora-training-project",
+    "__template__": "aurora_cmfplone"
+}

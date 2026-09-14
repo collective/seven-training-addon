@@ -1,0 +1,9 @@
+node_modules
+build
+README.md
+
+# Prisma / SQLite (Likes feature)
+dev.db
+.env
+# do not include the Prisma generated client
+generated/

@@ -1,37 +1,45 @@
-name: Acceptance tests
-on:
-  push:
-    paths:
-      - "*.js"
-      - "*.json"
-      - "*.yaml"
-      - "cypress/**"
-      - "packages/**"
-      - ".github/workflows/acceptance.yml"
+name: Acceptance Tests
 
-env:
-  NODE_VERSION: 22.x
-  CYPRESS_RETRIES: 2
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
 
 jobs:
-
   acceptance:
+    name: Acceptance
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Use Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ inputs.node-version }}
 
       - name: Enable corepack
-        run: corepack enable
+        run: npm i -g corepack@latest && corepack enable
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          # The acceptance backend runs as a long-lived `uv run robot-server`
+          # process that holds a lock on uv's cache for its whole lifetime.
+          # setup-uv's shared, restored cache turns that into a `.lock`
+          # contention that times out ("another uv process running?"), so keep
+          # uv on its default (non-shared) cache for this job.
+          enable-cache: false
 
       - name: Get pnpm store directory
         shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - uses: actions/cache@v4
         name: Setup pnpm cache
@@ -41,43 +49,35 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Cache Cypress Binary
-        id: cache-cypress-binary
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: binary-${{ env.NODE_VERSION }}-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Install dependencies
+      - name: Install backend and frontend
+        working-directory: .
         run: make install
 
-      - name: Install Cypress if not in cache
-        if: steps.cache-cypress-binary.outputs.cache-hit != 'true'
-        working-directory: core/packages/volto
-        run: make cypress-install
+      # The add-on's "Likes" feature is backed by Prisma/SQLite. Generate the
+      # client and create the database before starting the frontend.
+      - name: Generate Prisma client and database
+        run: |
+          pnpm --filter aurora-training-project prisma:generate
+          pnpm --filter aurora-training-project prisma:db:push
 
-      - uses: JarvusInnovations/background-action@v1
-        name: Start Servers
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - uses: JarvusInnovations/background-action@v1.0.7
+        name: Start servers - Aurora frontend and Plone (acceptance)
         with:
           run: |
-            make ci-acceptance-backend-start &
-            make acceptance-frontend-prod-start &
-          # your step-level and job-level environment variables are available to your commands as-is
-          # npm install will count towards the wait-for timeout
-          # whenever possible, move unrelated scripts to a different step
-          # to background multiple processes: add & to the end of the command
+            cd "${{ github.workspace }}"
+            make acceptance-backend-start &
+            make acceptance-frontend-dev-start &
 
           wait-on: |
             http-get://localhost:55001/plone
             http://localhost:3000
-          # IMPORTANT: to use environment variables in wait-on, you must use this form: ${{ env.VAR }}
-          # See wait-on section below for all resource types and prefixes
 
           tail: true # true = stderr,stdout
-          # This will allow you to monitor the progress live
 
           log-output-resume: stderr
-          # Eliminates previosuly output stderr log entries from post-run output
 
           wait-for: 10m
 
@@ -85,18 +85,14 @@ jobs:
 
           log-output-if: failure
 
-      - run: make ci-acceptance-test
+      - name: Run Playwright acceptance tests
+        run: pnpm exec playwright test -c playwright-acceptance.config.ts --reporter=list,html
 
-      # Upload Cypress screenshots
-      - uses: actions/upload-artifact@v4
-        if: failure()
+      - name: Upload Playwright artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-acceptance
-          path: acceptance/cypress/screenshots
-
-      # Upload Cypress videos
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-videos-acceptance
-          path: acceptance/cypress/videos
+          name: acceptance-report
+          path: |
+            frontend/playwright-report
+            frontend/acceptance/results
